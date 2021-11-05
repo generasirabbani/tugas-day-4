@@ -1,7 +1,7 @@
 {
   "name": "react-movies",
   "version": "1.0.0",
-  "description": "A Top 10 Movies website made with ReactJS",
+  "description": "A Top 10 Anime Movies website made with ReactJS",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/misaalanshori/GDSC-Website-List-Movie.git"
+    "url": "git+https://github.com/generasirabbani/tugas-day-4.git"
   },
   "keywords": [
     "movies"
@@ -17,9 +17,9 @@
   "author": "Muhammad Isa Al Anshori",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/misaalanshori/GDSC-Website-List-Movie/issues"
+    "url": "https://github.com/generasirabbani/tugas-day-4/issues"
   },
-  "homepage": "https://github.com/misaalanshori/GDSC-Website-List-Movie#readme",
+  "homepage": "https://github.com/generasirabbani/tugas-day-4#readme",
   "devDependencies": {
     "@babel/cli": "^7.16.0",
     "@babel/core": "^7.16.0",

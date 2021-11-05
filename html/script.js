@@ -1,116 +1,261 @@
-// this code is sourced from https://github.com/misaalanshori/GDSC-Website-List-Movie
+// function to load the json
 async function getJSON() {
     const response = await fetch("movies.json");
-    const movieJSON = await response.json()
-    return movieJSON
-}
-
-function renderList(json) {
-    // this function takes the list template, duplicates it and then fills it with the data
-    let itemCopy = document.getElementsByClassName("movieItem")[0].cloneNode(true);
-    itemCopy.getElementsByClassName("loading")[0].classList.remove("loading")
-    let tempHTML = "";
-    json.forEach(movie => {
-        itemCopy.getElementsByClassName("movieRank")[0].innerHTML = movie.rank
-        itemCopy.getElementsByClassName("movieTitle")[0].innerHTML = movie.title
-        itemCopy.getElementsByClassName("movieThumb")[0].src = movie.image
-        tempHTML += "\n" + itemCopy.outerHTML
-    });
-    document.getElementById("movieList").innerHTML = tempHTML;
-}
-
-function processSearch(context) {
-    // this is the function that gets called by the search bar
-    let movieItems = document.getElementById("movieList").children
-    let searchTerms = context.value.split(" ")
-    if (context.value != "") {
-        for (let index = 0; index < movieItems.length; index++) {
-            const element = movieItems[index];
-            let text = element.getElementsByClassName("movieTitle")[0].innerText
-            if (searchTerms.every(term => text.toLowerCase().includes(term.toLowerCase()))) {
-                element.style.display = "block"
-            } else {
-                element.style.display = "none"
-            }
-        }
-    } else {
-        for (let index = 0; index < movieItems.length; index++) {
-            const element = movieItems[index]
-            element.style.display = "block"
-        }
+    const movieJSON = await response.json();
+    return movieJSON;
+  }
+  
+  JSONStorage = {
+    "write": (objName, contents) => {
+      window.localStorage.setItem(objName, JSON.stringify(contents.filter(Boolean)));
+      return JSONStorage.read(objName);
+    },
+    "read": objName => {
+      let data = JSON.parse(window.localStorage.getItem(objName));
+      return data ? data.filter(Boolean) : [];
     }
-}
-
-function renderModal(number, json) {
-    let movieDat = json[number-1]
-    document.getElementById("mvPoster").src=movieDat.image
-    document.getElementById("mvTitle").innerHTML=movieDat.title
-    document.getElementById("mvReleaseDate").innerHTML=movieDat.releasedate
-    document.getElementById("mvRatingNum").innerHTML=movieDat.rating + "/10"
-    document.getElementById("movieDesc").innerHTML=movieDat.desc
-    document.getElementById("malpage").href=movieDat.link
-
-    // This next part renders the star ratings, theres probably a better way. but whatever
-    let starRating = document.getElementById("starRating")
-    starRating.innerHTML = ""
-    let starNum = movieDat.rating
-    let currentStar = 0;
-    while (currentStar < 10) {
+  }; // ReactJS section starts here
+  
+  const e = React.createElement;
+  const stars = [/*#__PURE__*/React.createElement("span", {
+    className: "fullstar fa fa-solid fa-star"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "halfstar fa fa-solid fa-star-half-stroke"
+  }), /*#__PURE__*/React.createElement("span", {
+    className: "emptystar fa fa-regular fa-star"
+  })]; // this is a component for the star ratings, still have not figured out any better way to do this
+  
+  function StarRating(props) {
+    function drawStars(star) {
+      starRating = [];
+      let starNum = star;
+      let currentStar = 0;
+  
+      while (currentStar < 10) {
         if (starNum - 1 > 0) {
-            starRating.appendChild(fullstar.cloneNode())
-            starNum -= 1
-            currentStar += 1
+          starRating.push(0);
+          starNum -= 1;
+          currentStar += 1;
         } else if (starNum == 1) {
-            starRating.appendChild(fullstar.cloneNode())
-            starNum -= 1
-            currentStar += 1
+          starRating.push(0);
+          starNum -= 1;
+          currentStar += 1;
         } else if (starNum > 0 && starNum < 1) {
-            starRating.appendChild(halfstar.cloneNode())
-            starNum = 0
-            currentStar += 1
+          starRating.push(1);
+          starNum = 0;
+          currentStar += 1;
         } else {
-            starRating.appendChild(emptystar.cloneNode())
-            currentStar += 1
+          starRating.push(2);
+          currentStar += 1;
         }
+      }
+  
+      return starRating;
+    } 
+  
+  
+    return /*#__PURE__*/React.createElement("div", {
+      className: "star"
+    }, drawStars(props.rating).map(starNum => stars[starNum]));
+  } // a component for each movie on the list
+  
+  
+  function MovieListObject(props) {
+    if (props.search == "" || props.search.every(term => props.movieInfo.title.toLowerCase().includes(term.toLowerCase()))) {
+      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+        className: "movieItem"
+      }, /*#__PURE__*/React.createElement("span", {
+        className: "movieItemContents",
+        onClick: () => {
+          props.openModal(props.movieInfo);
+        }
+      }, /*#__PURE__*/React.createElement("span", {
+        className: "stext movieRank"
+      }, props.movieInfo["rank"]), /*#__PURE__*/React.createElement("img", {
+        className: "movieThumb",
+        src: props.movieInfo["image"]
+      }), /*#__PURE__*/React.createElement("a", {
+        className: "stext movieTitle"
+      }, props.movieInfo["title"])), props.action));
+    } else {
+      return /*#__PURE__*/React.createElement(React.Fragment, null);
     }
-
-}
-
-function openModal(context, modal) {
-    // updates and opens the modal
-    let itemNum = context.getElementsByClassName("movieRank")[0].innerHTML
-    renderModal(itemNum, movieData)    
-    modal.style.display = "block"
-}
-
-
-
-
-var movieData;
-// Starting point for rendering the list
-getJSON().then(retval => {
-    movieData = retval
-    renderList(retval)
-})
-
-
-// Stuff for the modal
-var movieModal = document.getElementById("movieModal");
-var closeButton = document.getElementsByClassName("closeModal")[0];
-
-var fullstar = movieModal.getElementsByClassName("fullstar")[0].cloneNode(true)
-var halfstar = movieModal.getElementsByClassName("halfstar")[0].cloneNode(true)
-var emptystar = movieModal.getElementsByClassName("emptystar")[0].cloneNode(true)
-
-
-// When the user clicks on (x), close the modal
-closeButton.onclick = function () {
-    movieModal.style.display = "none";
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function (event) {
-    if (event.target == movieModal) {
-        movieModal.style.display = "none";
+  } // the modal popup component
+  
+  
+  function MovieModalPopUp(props) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "modal"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "closeModal",
+      onClick: props.closeModal
+    }, "\xD7"), /*#__PURE__*/React.createElement("div", {
+      className: "modalContent"
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "movieInfo"
+    }, /*#__PURE__*/React.createElement("img", {
+      className: "moviePoster",
+      src: props.mState.contents.image
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "aboutMovie"
+    }, /*#__PURE__*/React.createElement("a", {
+      className: "sltext"
+    }, props.mState.contents.title), /*#__PURE__*/React.createElement("span", {
+      className: "sltext block"
+    }, props.mState.contents.releasedate), /*#__PURE__*/React.createElement(StarRating, {
+      rating: props.mState.contents.rating
+    }), /*#__PURE__*/React.createElement("a", {
+      className: "sltext"
+    }, props.mState.contents.rating, "/10"))), /*#__PURE__*/React.createElement("div", {
+      className: "movieDesc"
+    }, /*#__PURE__*/React.createElement("h4", {
+      className: "sltext"
+    }, "Description:"), /*#__PURE__*/React.createElement("p", {
+      className: "sltext"
+    }, props.mState.contents.desc), /*#__PURE__*/React.createElement("a", {
+      className: "centerText boldText kindabigText",
+      href: props.mState.contents.link,
+      target: "_blank"
+    }, "IMDB Page"))));
+  }
+  
+  function FloatingWatchLater(props) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "dropdown"
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "fa-solid fa-clapperboard floatContents"
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "dropdown-content"
+    }, /*#__PURE__*/React.createElement("p", {
+      className: "sltext"
+    }, "Watch later:"), props.contents.map(data => /*#__PURE__*/React.createElement(MovieListObject, {
+      key: data["uniqueKey"],
+      movieInfo: data,
+      search: "",
+      openModal: () => {
+        props.modalOpener(data);
+      },
+      action: /*#__PURE__*/React.createElement(ActionButton, {
+        logo: /*#__PURE__*/React.createElement("span", {
+          className: "fa-solid fa-trash actionButton"
+        }),
+        action: () => {
+          props.favorite.delete(data);
+        }
+      })
+    }))));
+  }
+  
+  function ActionButton(prop) {
+    return /*#__PURE__*/React.createElement("span", {
+      className: "actionButton",
+      onClick: prop.action
+    }, prop.logo);
+  } // Main component, contains child components for the the search bar, movie list, and modal
+  
+  
+  function movieApp() {
+    const [searchSentence, setSearch] = React.useState("");
+    const [modalState, setModalState] = React.useState({
+      "open": false,
+      "contents": []
+    });
+    const [movieFavorites, setMovieFavorites] = React.useState(JSONStorage.read("favorites"));
+    const searchTerm = searchSentence.split(" ");
+  
+    const uniqueCheck = (arr, obj) => {
+      return;
+    };
+  
+    favorites = {
+      add: obj => {
+        if (movieFavorites.some(element => {
+          return element.uniqueKey == obj.uniqueKey;
+        })) {
+          alert("That movie is already added!");
+        } else {
+          setMovieFavorites(JSONStorage.write("favorites", [...movieFavorites, obj]));
+        }
+      },
+      delete: obj => {
+        let currentArray = movieFavorites;
+        delete currentArray[currentArray.indexOf(obj)];
+        setMovieFavorites(JSONStorage.write("favorites", currentArray));
+      }
+    };
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Top 20 Movies"), /*#__PURE__*/React.createElement("p", {
+      className: "ltext"
+    }, "Top 20 Movies, data sourced from the IMDB (Now with ReactJS!)"), /*#__PURE__*/React.createElement("input", {
+      type: "text",
+      placeholder: "Search for a movie title",
+      value: searchSentence,
+      onChange: event => {
+        setSearch(event.target.value);
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "movieList"
+    }, movieData.map(data => /*#__PURE__*/React.createElement(MovieListObject, {
+      key: data["uniqueKey"],
+      movieInfo: data,
+      search: searchTerm,
+      openModal: () => {
+        setModalState({
+          "open": true,
+          "contents": data
+        });
+      },
+      action: /*#__PURE__*/React.createElement(ActionButton, {
+        logo: /*#__PURE__*/React.createElement("span", {
+          className: "fa-solid fa-plus actionButton"
+        }),
+        action: () => {
+          favorites.add(data);
+        }
+      })
+    }))), modalState.open ? /*#__PURE__*/React.createElement(MovieModalPopUp, {
+      mState: modalState,
+      closeModal: () => {
+        setModalState({
+          "open": false,
+          "contents": []
+        });
+      }
+    }) : /*#__PURE__*/React.createElement(React.Fragment, null), /*#__PURE__*/React.createElement(FloatingWatchLater, {
+      modalOpener: dat => setModalState({
+        "open": true,
+        "contents": dat
+      }),
+      contents: movieFavorites,
+      favorite: favorites
+    }));
+  }
+  
+  
+  function madeBy() {
+    const [state, setState] = React.useState(0);
+  
+    function updateState() {
+      if (state != emojis.length - 1) {
+        setState(state + 1);
+      } else {
+        setState(0);
+      }
     }
-}
+  
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
+      className: "stext centerText",
+      onClick: updateState
+    }, "Made by ", /*#__PURE__*/React.createElement("a", {
+      href: "https://github.com/generasirabbani",
+      target: "_blank"
+    }, "Rafif Rabbani")));
+  } // this is where the code *really* starts
+  
+  
+  var movieData; // Starting point for rendering the list
+  
+  getJSON().then(retval => {
+    movieData = retval;
+    ReactDOM.render(e(movieApp), document.querySelector('#movieApp'));
+    ReactDOM.render(e(madeBy), document.querySelector('#madeByCredits'));
+  }); // this code is complete garbage, im so sorry that you had to read all that
