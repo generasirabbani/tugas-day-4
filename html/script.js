@@ -17,6 +17,7 @@ JSONStorage = {
 }; // ReactJS section starts here
 
 const e = React.createElement;
+const emojis = ["❤️", "🩸", "🕒", "🧠", "💪"];
 const stars = [/*#__PURE__*/React.createElement("span", {
   className: "fullstar fa fa-solid fa-star"
 }), /*#__PURE__*/React.createElement("span", {
@@ -183,9 +184,9 @@ function movieApp() {
       setMovieFavorites(JSONStorage.write("favorites", currentArray));
     }
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Top 20 Anime Movies"), /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Top 20 Movies"), /*#__PURE__*/React.createElement("p", {
     className: "ltext"
-  }, "Top 20 Movies, data sourced from MyAnimeList (Added ReactJS)"), /*#__PURE__*/React.createElement("input", {
+  }, "Top 20 Movies, data sourced from the IMDB (Now with ReactJS!)"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     placeholder: "Search for a movie title",
     value: searchSentence,
@@ -244,10 +245,10 @@ function madeBy() {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
     className: "stext centerText",
     onClick: updateState
-  }, "Made with by ", /*#__PURE__*/React.createElement("a", {
-    href: "https://github.com/generasirabbani",
+  }, "Made with ", emojis[state], " by ", /*#__PURE__*/React.createElement("a", {
+    href: "https://github.com/misaalanshori",
     target: "_blank"
-  }, "Rafif Rabbani")));
+  }, "M Isa Al Anshori")));
 }
 
 var movieData;
