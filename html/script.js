@@ -183,9 +183,9 @@ function movieApp() {
       setMovieFavorites(JSONStorage.write("favorites", currentArray));
     }
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Top 20 Movies"), /*#__PURE__*/React.createElement("p", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Top 20 Anime Movies"), /*#__PURE__*/React.createElement("p", {
     className: "ltext"
-  }, "Top 20 Movies, data sourced from MyAnimeList (Added ReactJS)"), /*#__PURE__*/React.createElement("input", {
+  }, "Top 20 Anime Movies, data sourced from MyAnimeList (Added ReactJS)"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     placeholder: "Search for a movie title",
     value: searchSentence,

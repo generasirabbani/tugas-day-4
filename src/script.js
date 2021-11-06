@@ -171,8 +171,8 @@ function movieApp() {
 
     return (<>
 
-        <h1>Top 20 Movies</h1>
-        <p className="ltext">Top 20 Movies, data sourced from MyAnimeList (Added ReactJS)</p>
+        <h1>Top 20 Anime Movies</h1>
+        <p className="ltext">Top 20 Anime Movies, data sourced from MyAnimeList (Added ReactJS)</p>
 
         <input 
         type="text" 
