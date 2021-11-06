@@ -124,7 +124,7 @@ p {
 }
 
 .movieItemContents:hover {
-    background-color: darkgrey;
+    background-color: grey;
 }
 
 .actionButton {
