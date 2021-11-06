@@ -17,7 +17,6 @@ JSONStorage = {
 
 // ReactJS section starts here
 const e = React.createElement;
-const emojis = ["❤️","🩸","🕒","🧠","💪"] 
 const stars = [
     (<span className="fullstar fa fa-solid fa-star"></span>),
     (<span className="halfstar fa fa-solid fa-star-half-stroke"></span>),
@@ -104,7 +103,7 @@ function MovieModalPopUp(props) {
             <div className="movieDesc">
                 <h4 className="sltext">Description:</h4>
                 <p className="sltext">{props.mState.contents.desc}</p>
-                <a className="centerText boldText kindabigText" href={props.mState.contents.link} target="_blank">IMDB Page</a>
+                <a className="centerText boldText kindabigText" href={props.mState.contents.link} target="_blank">MyAnimeList Page</a>
             </div>
 
         </div>
@@ -173,7 +172,7 @@ function movieApp() {
     return (<>
 
         <h1>Top 20 Movies</h1>
-        <p className="ltext">Top 20 Movies, data sourced from the IMDB (Now with ReactJS!)</p>
+        <p className="ltext">Top 20 Movies, data sourced from MyAnimeList (Added ReactJS)</p>
 
         <input 
         type="text" 
@@ -216,7 +215,7 @@ function madeBy() {
 
   return (<>
     <p className="stext centerText" onClick={updateState}>
-        Made with {emojis[state]} by <a href="https://github.com/misaalanshori" target="_blank">M Isa Al Anshori</a>
+        Made by <a href="https://github.com/generasirabbani" target="_blank">Rafif Rabbani</a>
     </p>
   </>)
 }

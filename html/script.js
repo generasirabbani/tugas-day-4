@@ -17,7 +17,6 @@ JSONStorage = {
 }; // ReactJS section starts here
 
 const e = React.createElement;
-const emojis = ["❤️", "🩸", "🕒", "🧠", "💪"];
 const stars = [/*#__PURE__*/React.createElement("span", {
   className: "fullstar fa fa-solid fa-star"
 }), /*#__PURE__*/React.createElement("span", {
@@ -117,7 +116,7 @@ function MovieModalPopUp(props) {
     className: "centerText boldText kindabigText",
     href: props.mState.contents.link,
     target: "_blank"
-  }, "IMDB Page"))));
+  }, "MyAnimeList Page"))));
 }
 
 function FloatingWatchLater(props) {
@@ -186,7 +185,7 @@ function movieApp() {
   };
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("h1", null, "Top 20 Movies"), /*#__PURE__*/React.createElement("p", {
     className: "ltext"
-  }, "Top 20 Movies, data sourced from the IMDB (Now with ReactJS!)"), /*#__PURE__*/React.createElement("input", {
+  }, "Top 20 Movies, data sourced from MyAnimeList (Added ReactJS)"), /*#__PURE__*/React.createElement("input", {
     type: "text",
     placeholder: "Search for a movie title",
     value: searchSentence,
@@ -245,10 +244,10 @@ function madeBy() {
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("p", {
     className: "stext centerText",
     onClick: updateState
-  }, "Made with ", emojis[state], " by ", /*#__PURE__*/React.createElement("a", {
-    href: "https://github.com/misaalanshori",
+  }, "Made by ", /*#__PURE__*/React.createElement("a", {
+    href: "https://github.com/generasirabbani",
     target: "_blank"
-  }, "M Isa Al Anshori")));
+  }, "Rafif Rabbani")));
 }
 
 var movieData;
