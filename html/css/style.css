@@ -2,7 +2,7 @@
 /* Main Page CSS */
 body {
     /* CSS HEX */
-    --bigtext: #1d439b;
+    --bigtext: #2d2d2d;
     --text: #1d439b7c;
     --lightText: #e1e7f5;
     --acolor: #1d439baf;
@@ -124,7 +124,7 @@ p {
 }
 
 .movieItemContents:hover {
-    background-color: tomato;
+    background-color: darkgrey;
 }
 
 .actionButton {
