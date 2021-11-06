@@ -34,7 +34,8 @@ h1 {
 }
 
 .sltext {
-    color: var(--lightText)
+    color: var(--lightText);
+    text-shadow: 1px 1px #fff;
 }
 
 h4.sltext{
